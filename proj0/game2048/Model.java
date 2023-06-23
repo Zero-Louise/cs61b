@@ -207,7 +207,7 @@ public class Model extends Observable {
                                 merged = true;
                                 changed = true;
                             }
-                        }else {
+                        } else {
                             break;
                         }
                     }
@@ -216,9 +216,9 @@ public class Model extends Observable {
             if (moved) {
                 for (int cur_row2 = move_tile_index - 1; cur_row2 >= 0; cur_row2 -= 1) {
                     Tile cur_tile2 = colTiles[cur_row2];
-                    if (cur_tile2 != null){
+                    if (cur_tile2 != null) {
                         int cur_tile2_val = cur_tile2.value();
-                        if (cur_tile2_val != move_tile_value){
+                        if (cur_tile2_val != move_tile_value) {
                             break;
                         } else {
                             board.move(cur_col, dis_row, cur_tile2);
