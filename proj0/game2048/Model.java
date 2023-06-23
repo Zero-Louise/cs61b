@@ -136,6 +136,8 @@ public class Model extends Observable {
      * value, then the leading two tiles in the direction of motion merge,
      * and the trailing tile does not.
      */
+
+
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
@@ -157,8 +159,6 @@ public class Model extends Observable {
         int size = board.size();
         boolean changed = false;
         for (int col = 0; col <= size - 1; col += 1) {
-            System.out.println("Before:");
-            print_board(board);
             if (mergeColTiles(col)) {
                 changed = true;
             }
@@ -169,16 +169,6 @@ public class Model extends Observable {
     private boolean mergeColTiles(int col) {
         int size = board.size();
         Tile[] colTiles = getColTile(col, size);
-        System.out.println("current_col:");
-        for (int i = 0; i < size; i++) {
-            if (colTiles[i] != null) {
-                System.out.print(colTiles[i].value() + " ");
-            } else {
-                System.out.print(0 + " ");
-
-            }
-        }
-        System.out.println();
         return mergeColTiles(colTiles, col, size);
     }
 
@@ -190,10 +180,8 @@ public class Model extends Observable {
         int move_tile_value = Integer.MAX_VALUE;
         for (int dis_row = size - 1; dis_row > 0; dis_row -= 1) {
             Tile dis_tile = colTiles[dis_row];
-            System.out.println("dis_row:" + dis_row + " dis_tile:" + dis_tile);
             if (dis_tile == null) {
                 for (int cur_row = dis_row - 1; cur_row >= 0; cur_row -= 1) {
-                    System.out.println("cur_row:" + cur_row);
                     Tile cur_tile = colTiles[cur_row];
                     if (cur_tile != null) {
                         if (!board.move(cur_col, dis_row, cur_tile)) {
@@ -202,47 +190,44 @@ public class Model extends Observable {
                             colTiles[move_tile_index] = null;
                             moved = true;
                         }
-                        System.out.println("After moved:");
-                        print_board(board);
                         changed = true;
                         break;
                     }
                 }
             } else {
                 int dis_tile_val = dis_tile.value();
-                System.out.println("else part:");
                 for (int cur_row = dis_row - 1; cur_row >= 0; cur_row -= 1) {
                     Tile cur_tile = colTiles[cur_row];
-                    System.out.println("cur_row:" + cur_row);
                     if (!merged && cur_tile != null) {
                         int cur_tile_val = cur_tile.value();
-                        System.out.println("cur_value:" + cur_tile_val);
                         if (dis_tile_val == cur_tile_val) {
                             if (board.move(cur_col, dis_row, cur_tile)) {
-                                System.out.println("After merged:");
-                                print_board(board);
                                 score += cur_tile_val * 2;
                                 colTiles[cur_row] = null;
                                 merged = true;
                                 changed = true;
                             }
+                        }else {
+                            break;
                         }
                     }
                 }
             }
             if (moved) {
-                System.out.println("move_tile_value:" + move_tile_value);
                 for (int cur_row2 = move_tile_index - 1; cur_row2 >= 0; cur_row2 -= 1) {
                     Tile cur_tile2 = colTiles[cur_row2];
-                    if (cur_tile2 != null && cur_tile2.value() == move_tile_value) {
-                        board.move(cur_col, dis_row, cur_tile2);
-                        score += cur_tile2.value() * 2;
-                        print_board(board);
-                        colTiles[cur_row2] = null;
-                        move_tile_value = Integer.MAX_VALUE;
-                        moved = false;
+                    if (cur_tile2 != null){
+                        int cur_tile2_val = cur_tile2.value();
+                        if (cur_tile2_val != move_tile_value){
+                            break;
+                        } else {
+                            board.move(cur_col, dis_row, cur_tile2);
+                            score += cur_tile2.value() * 2;
+                            colTiles[cur_row2] = null;
+                            move_tile_value = Integer.MAX_VALUE;
+                            moved = false;
+                        }
                     }
-
                 }
             }
             merged = false;
@@ -259,6 +244,7 @@ public class Model extends Observable {
     }
 
 
+    /*
     private void print_board(Board b) {
         int size = b.size();
         for (int i = 0; i <= size - 1; i++) {
@@ -273,6 +259,7 @@ public class Model extends Observable {
             System.out.println();
         }
     }
+     */
 
     /**
      * Checks if the game is over and sets the gameOver variable
