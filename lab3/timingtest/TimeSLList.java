@@ -40,7 +40,7 @@ public class TimeSLList {
             double timeInSeconds = sw.elapsedTime();
             ns.addLast(n);
             times.addLast(timeInSeconds);
-            opCounts.addLast(n);
+            opCounts.addLast(M);
         }
         printTimingTable(ns, times, opCounts);
     }
