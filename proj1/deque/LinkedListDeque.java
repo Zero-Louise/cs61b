@@ -77,7 +77,7 @@ public class LinkedListDeque<Item> {
      * by a space. Once all the items have been printed,print out a new line.
      */
     public void printDeque() {
-        if (size == 0) {
+        if (isEmpty()) {
             return;
         }
         Node p = sentinel.next;
@@ -95,7 +95,7 @@ public class LinkedListDeque<Item> {
      * @return
      */
     public Item removeFirst() {
-        if (size == 0) {
+        if (isEmpty()) {
             return null;
         }
         Item firstItem;
@@ -114,7 +114,7 @@ public class LinkedListDeque<Item> {
      * @return
      */
     public Item removeLast() {
-        if (size == 0) {
+        if (isEmpty()) {
             return null;
         }
         Item lastItem;
@@ -135,7 +135,7 @@ public class LinkedListDeque<Item> {
      * @return
      */
     public Item get(int index) {
-        if (size == 0 || index < 0 || index >= size) {
+        if (isEmpty() || index < 0 || index >= size) {
             return null;
         }
         Node p = sentinel.next;
@@ -154,7 +154,7 @@ public class LinkedListDeque<Item> {
      * @return
      */
     public Item getRecursive(int index) {
-        if (size == 0 || index < 0 || index >= size) {
+        if (isEmpty() || index < 0 || index >= size) {
             return null;
         }
         return getRecursive(index, sentinel.next);

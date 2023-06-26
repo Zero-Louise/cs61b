@@ -28,7 +28,7 @@ public class ArrayDeque<Item> {
      * @param item
      */
     public void addFirst(Item item) {
-        if (size != 0) {
+        if (!isEmpty()) {
             firstIndex -= 1;
             checkIndexValid();
         }
@@ -44,7 +44,7 @@ public class ArrayDeque<Item> {
      * @param item
      */
     public void addLast(Item item) {
-        if (size != 0) {
+        if (!isEmpty()) {
             lastIndex += 1;
             checkIndexValid();
         }
@@ -76,7 +76,7 @@ public class ArrayDeque<Item> {
      * by a space. Once all the items have been printed,print out a new line.
      */
     public void printDeque() {
-        if (size == 0) {
+        if (isEmpty()) {
             return;
         }
         int first = firstIndex;
@@ -103,7 +103,7 @@ public class ArrayDeque<Item> {
      * @return
      */
     public Item removeFirst() {
-        if (size == 0) {
+        if (isEmpty()) {
             return null;
         }
         Item rItem = items[firstIndex];
@@ -122,7 +122,7 @@ public class ArrayDeque<Item> {
      * @return
      */
     public Item removeLast() {
-        if (size == 0) {
+        if (isEmpty()) {
             return null;
         }
         Item rItem = items[lastIndex];
@@ -144,7 +144,7 @@ public class ArrayDeque<Item> {
      */
     public Item get(int index) {
         int length = items.length;
-        if (size == 0 || index < 0 || index >= length) {
+        if (isEmpty() || index < 0 || index >= length) {
             return null;
         }
         return items[index];
