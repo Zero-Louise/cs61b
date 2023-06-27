@@ -159,43 +159,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         int length = items.length;
         if (op == 0) {
             newItems = (T[]) new Object[length * 2];
-            /*
-            if (firstIndex > lastIndex) {
-                System.arraycopy(items, firstIndex, newItems, firstIndex + length,
-                        length - firstIndex);
-                System.arraycopy(items, 0, newItems, 0, lastIndex + 1);
-                firstIndex += length;
-            } else {
-                System.arraycopy(items, 0, newItems, 0, length);
-            }
-            */
         } else {
             newItems = (T[]) new Object[length / 2];
-            /*
-            if (firstIndex >= newLength) {
-                if (lastIndex >= newLength) {
-                    System.arraycopy(items, firstIndex, newItems, firstIndex - newLength,
-                            lastIndex - firstIndex + 1);
-                    lastIndex -= newLength;
-                } else {
-                    System.arraycopy(items, firstIndex, newItems, firstIndex - newLength,
-                            length - firstIndex);
-                    System.arraycopy(items, 0, newItems, 0, lastIndex + 1);
-                }
-                firstIndex -= newLength;
-            } else {
-                if (lastIndex >= newLength) {
-                    System.arraycopy(items, firstIndex, newItems, firstIndex,
-                            newLength - firstIndex);
-                    System.arraycopy(items, newLength, newItems, 0,
-                            lastIndex - newLength + 1);
-                    lastIndex -= newLength;
-                } else {
-                    System.arraycopy(items, firstIndex, newItems, firstIndex,
-                            lastIndex - firstIndex + 1);
-                }
-            }
-            */
         }
         for (int i = 0; i < size; i += 1) {
             newItems[i] = get(i);
