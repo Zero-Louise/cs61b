@@ -159,6 +159,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         int length = items.length;
         if (op == 0) {
             newItems = (T[]) new Object[length * 2];
+            /*
             if (firstIndex > lastIndex) {
                 System.arraycopy(items, firstIndex, newItems, firstIndex + length,
                         length - firstIndex);
@@ -167,9 +168,10 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             } else {
                 System.arraycopy(items, 0, newItems, 0, length);
             }
+            */
         } else {
-            int newLength = length / 2;
-            newItems = (T[]) new Object[newLength];
+            newItems = (T[]) new Object[length / 2];
+            /*
             if (firstIndex >= newLength) {
                 if (lastIndex >= newLength) {
                     System.arraycopy(items, firstIndex, newItems, firstIndex - newLength,
@@ -193,8 +195,14 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
                             lastIndex - firstIndex + 1);
                 }
             }
+            */
+        }
+        for (int i = 0; i < size; i += 1) {
+            newItems[i] = get(i);
         }
         items = newItems;
+        firstIndex = 0;
+        lastIndex = size - 1;
     }
 
     /**
@@ -223,15 +231,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private int getItemsLength() {
         return items.length;
     }
-
-    /**
-     * Only for randomizedTest
-     */
-    private void printADequeStatus() {
-        System.out.println("first:" + getFirstIndex() + " last:" + getLastIndex() + " size:" + size() + " length:" + getItemsLength());
-        printDeque();
-    }
-
 
     /**
      * Returns whether or not the parameter o is equal to the Deque.
