@@ -73,22 +73,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (isEmpty()) {
             return;
         }
-        /*
-        int first = firstIndex;
-        int last = lastIndex;
-        if (first > last) {
-            for (int i = first; i <= items.length - 1; i += 1) {
-                System.out.print(items[i] + " ");
-            }
-            for (int i = 0; i <= last; i += 1) {
-                System.out.print(items[i] + " ");
-            }
-        } else {
-            for (int i = first; i <= last; i += 1) {
-                System.out.print(items[i] + " ");
-            }
-        }
-        */
         for (int i = 0; i < size; i += 1) {
             System.out.print(get(i) + " ");
         }
@@ -176,7 +160,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (op == 0) {
             newItems = (T[]) new Object[length * 2];
             if (firstIndex > lastIndex) {
-                System.arraycopy(items, firstIndex, newItems, firstIndex + length, length - firstIndex);
+                System.arraycopy(items, firstIndex, newItems, firstIndex + length,
+                        length - firstIndex);
                 System.arraycopy(items, 0, newItems, 0, lastIndex + 1);
                 firstIndex += length;
             } else {
@@ -187,20 +172,25 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             newItems = (T[]) new Object[newLength];
             if (firstIndex >= newLength) {
                 if (lastIndex >= newLength) {
-                    System.arraycopy(items, firstIndex, newItems, firstIndex - newLength, lastIndex - firstIndex + 1);
+                    System.arraycopy(items, firstIndex, newItems, firstIndex - newLength,
+                            lastIndex - firstIndex + 1);
                     lastIndex -= newLength;
                 } else {
-                    System.arraycopy(items, firstIndex, newItems, firstIndex - newLength, length - firstIndex);
+                    System.arraycopy(items, firstIndex, newItems, firstIndex - newLength,
+                            length - firstIndex);
                     System.arraycopy(items, 0, newItems, 0, lastIndex + 1);
                 }
                 firstIndex -= newLength;
             } else {
                 if (lastIndex >= newLength) {
-                    System.arraycopy(items, firstIndex, newItems, firstIndex, newLength - firstIndex);
-                    System.arraycopy(items, newLength, newItems, 0, lastIndex - newLength + 1);
+                    System.arraycopy(items, firstIndex, newItems, firstIndex,
+                            newLength - firstIndex);
+                    System.arraycopy(items, newLength, newItems, 0,
+                            lastIndex - newLength + 1);
                     lastIndex -= newLength;
                 } else {
-                    System.arraycopy(items, firstIndex, newItems, firstIndex, lastIndex - firstIndex + 1);
+                    System.arraycopy(items, firstIndex, newItems, firstIndex,
+                            lastIndex - firstIndex + 1);
                 }
             }
         }
@@ -257,15 +247,15 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (this == o) {
             return true;
         }
-        if (o == null || o.getClass() != this.getClass()) {
+        if (o == null || !(o instanceof Deque)) {
             return false;
         }
-        ArrayDeque<T> obj = (ArrayDeque<T>) o;
+        Deque<T> obj = (Deque<T>) o;
         if (this.size() != obj.size()) {
             return false;
         }
         for (int i = 0; i < size(); i++) {
-            if (this.get(i) != obj.get(i)) {
+            if (!this.get(i).equals(obj.get(i))) {
                 return false;
             }
         }
@@ -288,7 +278,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
         private int size;
 
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             index = 0;
             size = size();
         }
@@ -305,100 +295,4 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             return item;
         }
     }
-
-
-    /**
-     * Check if the array need the be resized
-     *
-     * @param op
-     */
-    /*
-    private boolean checkResize(int op) {
-        int length = items.length;
-        double ratio = (double) size / length;
-        if (ratio > RESIZE_FACTOR) {
-            resize(op);
-            System.out.println("sized");
-            return true;
-        }
-        return false;
-    }
-     */
-
-    /**
-     * Resize the array
-     *
-     * @param op 0 is meaning that expand the array, 1 is meaning that reduce the array
-     */
-    /*
-    private void resize(int op) {
-        T[] newItems;
-        int length = items.length;
-        int first = firstIndex;
-        int last = lastIndex;
-        if (op == 0) {
-            newItems = (T[]) new Object[length * 2];
-            if (first > last) {
-                System.arraycopy(items, first, newItems, first + length, length - first);
-                System.arraycopy(items, 0, newItems, 0, last + 1);
-                firstIndex += length;
-            } else {
-                System.arraycopy(items, first, newItems, first, last - first + 1);
-            }
-        } else {
-            newItems = (T[]) new Object[length / 2];
-            if (first > last) {
-                if (first > length / 2) {
-                    if (last > length / 2) {
-                        System.arraycopy(items, last, newItems, last - (length) / 2, first - last + 1);
-                        lastIndex -= length / 2;
-                    } else {
-                        System.arraycopy(items, first, newItems, first - (length / 2), length - first);
-                        System.arraycopy(items, 0, newItems, 0, last + 1);
-                    }
-                    firstIndex -= length / 2;
-                } else {
-                    System.arraycopy(items, first, newItems, first, (length / 2) - first);
-                    System.arraycopy(items, 0, newItems, 0, last + 1);
-                }
-            } else {
-                if (first > length / 2) {
-                    System.arraycopy(items, first, newItems, first - (length / 2), last - first + 1);
-                    firstIndex -= length;
-                    lastIndex -= length;
-                } else {
-                    if (last > length / 2) {
-                        System.arraycopy(items, first, newItems, first, (length / 2) - first);
-                        System.arraycopy(items, length / 2, newItems, 0, last - (length / 2) + 1);
-                        lastIndex -= length;
-                    } else {
-                        System.arraycopy(items, first, newItems, first, last - first + 1);
-                    }
-                }
-            }
-        }
-        items = newItems;
-    }
-    */
-
-    /**
-     * Check index is valid after modifying Deque item
-     */
-    /*
-    private void checkIndexValid() {
-        int length = items.length;
-        if (firstIndex < 0) {
-            firstIndex = length - 1;
-        }
-        if (firstIndex >= length) {
-            firstIndex = 0;
-        }
-        if (lastIndex < 0) {
-            lastIndex = length - 1;
-        }
-        if (lastIndex >= length) {
-            lastIndex = 0;
-        }
-    }
-    */
 }

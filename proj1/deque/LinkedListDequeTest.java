@@ -214,6 +214,14 @@ public class LinkedListDequeTest {
         //should be true
         assertNotEquals(lld5, lld7);
         assertNotEquals(lld7, lld5);
+
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        ad1.addLast(a);
+        ad1.addLast(b);
+        ad1.addLast(c);
+
+        assertTrue(ad1.equals(lld5));
+        assertTrue(lld5.equals(ad1));
     }
 
     @Test
