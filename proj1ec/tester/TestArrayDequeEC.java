@@ -30,12 +30,12 @@ public class TestArrayDequeEC {
                 if (operator == 2) {
                     Integer val1 = sad.removeFirst();
                     Integer val2 = ads.removeFirst();
-                    msg.append("removeFirst(): " + val2 + "\n");
+                    msg.append("removeFirst()\n");
                     assertEquals(msg.toString(), val1, val2);
                 } else if (operator == 3) {
                     Integer val1 = sad.removeLast();
                     Integer val2 = ads.removeLast();
-                    msg.append("removeLast(): " + val2 + "\n");
+                    msg.append("removeLast()\n");
                     assertEquals(msg.toString(), val1, val2);
                 }
             }
