@@ -1,8 +1,11 @@
 package deque;
 
+import edu.princeton.cs.algs4.StdRandom;
+import net.sf.saxon.om.Item;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+
 public class ArrayDequeTest {
 
     @Test
@@ -78,8 +81,8 @@ public class ArrayDequeTest {
     public void multipleParamTest() {
 
 
-        ArrayDeque<String>  ad1 = new ArrayDeque<String>();
-        ArrayDeque<Double>  ad2 = new ArrayDeque<Double>();
+        ArrayDeque<String> ad1 = new ArrayDeque<String>();
+        ArrayDeque<Double> ad2 = new ArrayDeque<Double>();
         ArrayDeque<Boolean> ad3 = new ArrayDeque<Boolean>();
 
         ad1.addFirst("string");
@@ -104,7 +107,7 @@ public class ArrayDequeTest {
 
     @Test
     /* Add large number of elements to deque; check if order is correct. */
-    public void bigadequeTest() {
+    public void bigADequeTest() {
 
         ArrayDeque<Integer> ad1 = new ArrayDeque<Integer>();
         for (int i = 0; i < 1000000; i++) {
@@ -123,8 +126,8 @@ public class ArrayDequeTest {
 
     @Test
     /* Check if method get() works */
-    public void getItemTest(){
-        ArrayDeque<String>  ad1 = new ArrayDeque<>();
+    public void getItemTest() {
+        ArrayDeque<String> ad1 = new ArrayDeque<>();
 
         //should be null
         assertNull(ad1.get(0));
@@ -144,11 +147,152 @@ public class ArrayDequeTest {
 
 
         //should get the correct item
-        assertEquals("first",ad1.get(0));
-        assertEquals("second",ad1.get(7));
-        assertEquals("third",ad1.get(6));
+        assertEquals("third", ad1.get(0));
+        assertEquals("second", ad1.get(1));
+        assertEquals("first", ad1.get(2));
 
         //should not change the deque item
         ad1.printDeque();
+    }
+
+    /*
+    @Test
+    public void randomizedTest() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+
+        int N = 10000;
+        for (int i = 0; i < N; i += 1) {
+            int operationNumber = StdRandom.uniform(0, 8);
+            System.out.println("opNum:" + operationNumber);
+            //ad1.printADequeStatus();
+            if (operationNumber == 0) {
+                // addLast
+                int randVal = StdRandom.uniform(0, 100);
+                ad1.addLast(randVal);
+                System.out.println("addLast(" + randVal + ")");
+            } else if (operationNumber == 1) {
+                // size
+                int size = ad1.size();
+                System.out.println("size: " + size);
+            } else if (operationNumber == 2) {
+                //isEmpty
+                boolean isEmpty = ad1.isEmpty();
+                System.out.println("isEmpty: " + isEmpty);
+            } else if (operationNumber == 3) {
+                //addFirst
+                int randVal = StdRandom.uniform(0, 100);
+                ad1.addFirst(randVal);
+                System.out.println("addFirst(" + randVal + ")");
+            } else if (ad1.size() != 0) {
+                if (operationNumber == 4) {
+                    int randIndex = 0;
+                    int firstIndex = ad1.getFirstIndex();
+                    int lastIndex = ad1.getLastIndex();
+                    int firstOrLast = StdRandom.uniform(0, 2);
+                    int length = ad1.getItemsLength();
+                    if (firstOrLast == 0) {
+                        if (firstIndex > lastIndex) {
+                            randIndex = StdRandom.uniform(firstIndex, length);
+                        } else {
+                            randIndex = StdRandom.uniform(firstIndex, lastIndex + 1);
+                        }
+                    } else {
+                        if (firstIndex > lastIndex) {
+                            randIndex = StdRandom.uniform(0, lastIndex + 1);
+                        } else {
+                            randIndex = StdRandom.uniform(firstIndex, lastIndex + 1);
+                        }
+                    }
+                    int getVal = ad1.get(randIndex);
+                    System.out.println("get(" + randIndex + ":" + getVal + ")");
+                } else if (operationNumber == 5) {
+                    ad1.printDeque();
+                } else if (operationNumber == 6) {
+                    //removeFirst
+                    int reVal = ad1.removeFirst();
+                    System.out.println("removeFirst(" + reVal + ")");
+                } else if (operationNumber == 7) {
+                    //removeLast
+                    int reVal = ad1.removeLast();
+                    System.out.println("removeLast(" + reVal + ")");
+                }
+            }
+        }
+    }
+    */
+
+    @Test
+    public void iteratorTest(){
+        ArrayDeque<String> ad1 = new ArrayDeque<>();
+
+        ad1.addLast("first");
+        ad1.addLast("second");
+        ad1.addLast("third");
+        ad1.addFirst("first2");
+
+        ad1.printDeque();
+
+        for (String item:ad1){
+            System.out.print(item + " ");
+        }
+    }
+
+    @Test
+    public void equalsTest() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        ArrayDeque<Integer> ad2 = new ArrayDeque<>();
+        ArrayDeque<Integer> ad3 = new ArrayDeque<>();
+        ArrayDeque<Integer> ad4 = new ArrayDeque<>();
+
+        ad1.addLast(3);
+        ad1.addLast(5);
+        ad1.addLast(7);
+
+        ad2.addLast(3);
+        ad2.addLast(5);
+        ad2.addLast(7);
+
+        //should be false
+        assertEquals(ad1, ad2);
+        assertEquals(ad2, ad1);
+
+        ad3 = ad1;
+        ad4 = ad1;
+
+        //should be true
+        assertEquals(ad1, ad3);
+        assertEquals(ad3, ad4);
+        assertEquals(ad1, ad4);
+
+
+        LinkedListDeque<Integer> ad5 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> ad6 = new LinkedListDeque<>();
+
+        Integer a = 2;
+        Integer b = 4;
+        Integer c = 6;
+
+        ad5.addLast(a);
+        ad5.addLast(b);
+        ad5.addLast(c);
+
+        ad6.addLast(a);
+        ad6.addLast(b);
+        ad6.addLast(c);
+        ad6.addLast(4);
+
+        //should be true
+        assertNotEquals(ad5, ad6);
+        assertNotEquals(ad6, ad5);
+
+        LinkedListDeque<Integer> ad7 = new LinkedListDeque<>();
+
+        ad6.addLast(a);
+        ad6.addLast(b);
+        ad6.addLast(b);
+
+        //should be true
+        assertNotEquals(ad5, ad7);
+        assertNotEquals(ad7, ad5);
     }
 }

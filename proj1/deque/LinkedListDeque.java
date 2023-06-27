@@ -1,16 +1,19 @@
 package deque;
 
-public class LinkedListDeque<Item> {
+import java.util.Iterator;
+
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     private Node sentinel;
     private int size;
 
+
     private class Node {
         private Node prev;
-        private Item item;
+        private T item;
         private Node next;
 
-        public Node(Item item) {
+        public Node(T item) {
             this.prev = null;
             this.item = item;
             this.next = null;
@@ -30,7 +33,8 @@ public class LinkedListDeque<Item> {
      *
      * @param item
      */
-    public void addFirst(Item item) {
+    @Override
+    public void addFirst(T item) {
         Node newNode = new Node(item);
         sentinel.next.prev = newNode;
         newNode.prev = sentinel;
@@ -45,7 +49,8 @@ public class LinkedListDeque<Item> {
      *
      * @param item
      */
-    public void addLast(Item item) {
+    @Override
+    public void addLast(T item) {
         Node newNode = new Node(item);
         sentinel.prev.next = newNode;
         newNode.prev = sentinel.prev;
@@ -55,19 +60,11 @@ public class LinkedListDeque<Item> {
     }
 
     /**
-     * Returns true if deque is empty, false otherwise
-     *
-     * @return
-     */
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    /**
      * Returns the number of items in the deque.
      *
      * @return
      */
+    @Override
     public int size() {
         return size;
     }
@@ -76,6 +73,7 @@ public class LinkedListDeque<Item> {
      * Prints the items in the deque from first to last,separated
      * by a space. Once all the items have been printed,print out a new line.
      */
+    @Override
     public void printDeque() {
         if (isEmpty()) {
             return;
@@ -94,11 +92,12 @@ public class LinkedListDeque<Item> {
      *
      * @return
      */
-    public Item removeFirst() {
+    @Override
+    public T removeFirst() {
         if (isEmpty()) {
             return null;
         }
-        Item firstItem;
+        T firstItem;
         Node firstNode = sentinel.next;
         firstItem = firstNode.item;
         sentinel.next = firstNode.next;
@@ -113,11 +112,12 @@ public class LinkedListDeque<Item> {
      *
      * @return
      */
-    public Item removeLast() {
+    @Override
+    public T removeLast() {
         if (isEmpty()) {
             return null;
         }
-        Item lastItem;
+        T lastItem;
         Node lastNode = sentinel.prev;
         lastItem = lastNode.item;
         sentinel.prev = lastNode.prev;
@@ -134,7 +134,8 @@ public class LinkedListDeque<Item> {
      * @param index
      * @return
      */
-    public Item get(int index) {
+    @Override
+    public T get(int index) {
         if (isEmpty() || index < 0 || index >= size) {
             return null;
         }
@@ -153,7 +154,7 @@ public class LinkedListDeque<Item> {
      * @param index
      * @return
      */
-    public Item getRecursive(int index) {
+    public T getRecursive(int index) {
         if (isEmpty() || index < 0 || index >= size) {
             return null;
         }
@@ -167,10 +168,71 @@ public class LinkedListDeque<Item> {
      * @param p
      * @return
      */
-    private Item getRecursive(int index, Node p) {
+    private T getRecursive(int index, Node p) {
         if (index == 0) {
             return p.item;
         }
         return getRecursive(index - 1, p.next);
     }
+
+    /**
+     * Return an iterator for LinkedListDeque
+     *
+     * @return
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedListDequeIterator();
+    }
+
+    private class LinkedListDequeIterator implements Iterator<T> {
+        private Node p;
+
+        public LinkedListDequeIterator() {
+            p = sentinel.next;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return p != sentinel;
+        }
+
+        @Override
+        public T next() {
+            T item = p.item;
+            p = p.next;
+            return item;
+        }
+    }
+
+    /**
+     * Returns whether or not the parameter o is equal to the Deque.
+     * o is considered equal if it is a Deque and if it contains the
+     * same contents (as goverened by the generic T’s equals method)
+     * in the same order.
+     *
+     * @param o
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+        LinkedListDeque<T> obj = (LinkedListDeque<T>) o;
+        if (this.size() != obj.size()) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (!this.get(i).equals(obj.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }

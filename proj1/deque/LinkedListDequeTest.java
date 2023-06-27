@@ -76,8 +76,8 @@ public class LinkedListDequeTest {
     public void multipleParamTest() {
 
 
-        LinkedListDeque<String>  lld1 = new LinkedListDeque<String>();
-        LinkedListDeque<Double>  lld2 = new LinkedListDeque<Double>();
+        LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
+        LinkedListDeque<Double> lld2 = new LinkedListDeque<Double>();
         LinkedListDeque<Boolean> lld3 = new LinkedListDeque<Boolean>();
 
         lld1.addFirst("string");
@@ -121,8 +121,8 @@ public class LinkedListDequeTest {
 
     @Test
     /* Check if method get() works */
-    public void getItemTest(){
-        LinkedListDeque<String>  lld1 = new LinkedListDeque<>();
+    public void getItemTest() {
+        LinkedListDeque<String> lld1 = new LinkedListDeque<>();
 
         //should be null
         assertNull(lld1.get(0));
@@ -145,15 +145,89 @@ public class LinkedListDequeTest {
         assertNull(lld1.getRecursive(4));
 
         //should get the correct item
-        assertEquals("first",lld1.get(2));
-        assertEquals("second",lld1.get(1));
-        assertEquals("third",lld1.get(0));
+        assertEquals("first", lld1.get(2));
+        assertEquals("second", lld1.get(1));
+        assertEquals("third", lld1.get(0));
 
-        assertEquals("first",lld1.getRecursive(2));
-        assertEquals("second",lld1.getRecursive(1));
-        assertEquals("third",lld1.getRecursive(0));
+        assertEquals("first", lld1.getRecursive(2));
+        assertEquals("second", lld1.getRecursive(1));
+        assertEquals("third", lld1.getRecursive(0));
 
         //should not change the deque item
         lld1.printDeque();
+    }
+
+    @Test
+    public void equalsTest() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> lld3 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> lld4 = new LinkedListDeque<>();
+
+        lld1.addLast(3);
+        lld1.addLast(5);
+        lld1.addLast(7);
+
+        lld2.addLast(3);
+        lld2.addLast(5);
+        lld2.addLast(7);
+
+        //should be false
+        assertEquals(lld1, lld2);
+        assertEquals(lld2, lld1);
+
+        lld3 = lld1;
+        lld4 = lld1;
+
+        //should be true
+        assertEquals(lld1, lld3);
+        assertEquals(lld3, lld4);
+        assertEquals(lld1, lld4);
+
+
+        LinkedListDeque<Integer> lld5 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> lld6 = new LinkedListDeque<>();
+
+        Integer a = 2;
+        Integer b = 4;
+        Integer c = 6;
+
+        lld5.addLast(a);
+        lld5.addLast(b);
+        lld5.addLast(c);
+
+        lld6.addLast(a);
+        lld6.addLast(b);
+        lld6.addLast(c);
+        lld6.addLast(4);
+
+        //should be true
+        assertNotEquals(lld5, lld6);
+        assertNotEquals(lld6, lld5);
+
+        LinkedListDeque<Integer> lld7 = new LinkedListDeque<>();
+
+        lld6.addLast(a);
+        lld6.addLast(b);
+        lld6.addLast(b);
+
+        //should be true
+        assertNotEquals(lld5, lld7);
+        assertNotEquals(lld7, lld5);
+    }
+
+    @Test
+    public void iteratorTest(){
+        LinkedListDeque<String> lld1 = new LinkedListDeque<>();
+
+        lld1.addLast("first");
+        lld1.addLast("second");
+        lld1.addLast("third");
+
+        lld1.printDeque();
+
+        for (String item:lld1){
+            System.out.print(item + " ");
+        }
     }
 }
